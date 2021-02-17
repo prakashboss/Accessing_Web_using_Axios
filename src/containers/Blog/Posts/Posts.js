@@ -1,15 +1,17 @@
 import React, { Component } from "react";
-import axios from '../../../axios'
-import Post from '../../../components/Post/Post'
+import axios from "../../../axios";
+import Post from "../../../components/Post/Post";
+import {Link} from 'react-router-dom'
 
-import './Posts.css'
+import "./Posts.css";
 
 class Posts extends Component {
   state = {
-    posts: []
+    posts: [],
   };
 
   componentDidMount() {
+    console.log(this.props);
     axios
       .get("/posts")
       .then((response) => {
@@ -37,20 +39,21 @@ class Posts extends Component {
     });
   };
 
-
   render() {
     let Posts = <p>Something went wrong</p>;
     if (!this.state.error) {
       Posts = this.state.posts.map((post) => {
         return (
-          <Post
-            key={post.id}
-            title={post.title}
-            author={post.Author}
-            clicked={() => {
-              this.selectedPostHandler(post.id);
-            }}
-          />
+          <Link to={"/" + post.id} key={post.id}>
+            <Post
+              
+              title={post.title}
+              author={post.Author}
+              clicked={() => {
+                this.selectedPostHandler(post.id);
+              }}
+            />
+          </Link>
         );
       });
     }
